@@ -1,1 +1,1 @@
-Android Jetpack and Kotlin Coroutine demo
+Android Jetpack & Kotlin Coroutine demo
