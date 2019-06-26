@@ -7,17 +7,19 @@ import androidx.lifecycle.Observer
 import kotlinx.coroutines.CancellableContinuation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlin.coroutines.Continuation
+import java.text.SimpleDateFormat
+import java.util.*
 import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
 
 fun CoroutineScope.log(tag: String, msg: String?) {
-    val format = "${System.currentTimeMillis()} [$coroutineContext] $msg"
+    val format =
+        "${SimpleDateFormat.getDateTimeInstance().format(Date(System.currentTimeMillis()))} [${Thread.currentThread().name}] $msg"
     Log.i(tag, format)
 }
 
 fun log(tag: String, msg: String?) {
-    val format = "${System.currentTimeMillis()} $msg"
+    val format =
+        "${SimpleDateFormat.getDateTimeInstance().format(Date(System.currentTimeMillis()))} [${Thread.currentThread().name}] $msg"
     Log.i(tag, format)
 }
 

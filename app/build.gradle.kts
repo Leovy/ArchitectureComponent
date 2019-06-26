@@ -1,12 +1,8 @@
 import com.android.build.gradle.AppPlugin
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
-import org.jetbrains.kotlin.gradle.dsl.KotlinCommonOptions
 import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
-import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinWithJavaCompilation
-
 
 plugins {
     id("com.android.application")
@@ -42,10 +38,10 @@ tasks.withType<KotlinCompile<KotlinJvmOptions>>().all {
     }
 }
 
-
 dependencies {
     implementation(fileTree("libs") { include("*.jar") })
     implementation(kotlin("stdlib-jdk8", KotlinCompilerVersion.VERSION))
+    implementation(kotlin("reflect", KotlinCompilerVersion.VERSION))
     implementation("androidx.appcompat", "appcompat", "1.0.2")
     implementation("androidx.core:core-ktx:1.0.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0-alpha01")
@@ -61,6 +57,9 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.6.0")
     implementation("com.squareup.retrofit2:converter-gson:2.6.0")
     implementation("com.alibaba:fastjson:1.2.58")
+    val workVersion = "2.1.0-beta02"
+    implementation("androidx.work:work-runtime:$workVersion")
+    implementation("androidx.work:work-runtime-ktx:$workVersion")
 }
 
 tasks {

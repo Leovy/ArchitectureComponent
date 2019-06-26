@@ -1,6 +1,7 @@
 package com.nikeorever.architecturecomponent
 
 import android.app.*
+import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -58,6 +59,18 @@ fun notification(context: MyIntentService) {
 }
 
 class MyIntentService : IntentService("MyIntentService") {
+    companion object {
+        fun start(context: Context) {
+            Intent(context, MyIntentService::class.java).run {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    context.startForegroundService(this)
+                } else {
+                    context.startService(this)
+                }
+            }
+        }
+    }
+
     override fun onCreate() {
         super.onCreate()
 
