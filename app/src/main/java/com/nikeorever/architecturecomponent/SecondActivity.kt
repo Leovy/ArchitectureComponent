@@ -56,58 +56,58 @@ class SecondActivity : AppCompatActivity(), MainCoroutineScope, CoroutineScope b
 //            }
 //        }
 
-//        withLaunchedMainScope {
-//            try {
-//                log(TAG, "[AndroidMainScope] launched")
-//                delay(Long.MAX_VALUE)
-//            } catch (e: CancellationException) {
-//                log(TAG, "[AndroidMainScope] cancelled")
-//            } finally {
-//                log(TAG, "[AndroidMainScope] finally")
-//            }
-//        }
+        withLaunchedMainScope {
+            try {
+                log(TAG, "[AndroidMainScope] launched")
+                delay(Long.MAX_VALUE)
+            } catch (e: CancellationException) {
+                log(TAG, "[AndroidMainScope] cancelled")
+            } finally {
+                log(TAG, "[AndroidMainScope] finally")
+            }
+        }
 
-//        textView.onClick {
-//            val deferred = async {
-//                try {
-//                    log(TAG, "[AndroidMainScope-TextView] launched")
-//                    delay(4000)
-//                    log(TAG, "[AndroidMainScope-TextView] start return result")
-//                    coroutineContext.toString()
-//                } catch (e: CancellationException) {
-//                    log(TAG, "[AndroidMainScope-TextView] cancelled")
-//                    "CancellationException"
-//                } finally {
-//                    log(TAG, "[AndroidMainScope-TextView] finally")
-//                }
-//            }
-//            try {
-//                (it as TextView).text = deferred.await()
-//            } catch (e: CancellationException) {
-//                log(TAG, "[AndroidMainScope-TextView-await] cancelled")
-//            }
-//        }
-
-        textView.onClickDisposable { v: TextView ->
+        textView.onClick {
             val deferred = async {
                 try {
-                    log(TAG, "[AutoDisposable-TextView] launched")
-                    delay(Long.MAX_VALUE)
-                    log(TAG, "[AutoDisposable-TextView] start return result")
+                    log(TAG, "[AndroidMainScope-TextView] launched")
+                    delay(4000)
+                    log(TAG, "[AndroidMainScope-TextView] start return result")
                     coroutineContext.toString()
                 } catch (e: CancellationException) {
-                    log(TAG, "[AutoDisposable-TextView] cancelled")
+                    log(TAG, "[AndroidMainScope-TextView] cancelled")
                     "CancellationException"
                 } finally {
-                    log(TAG, "[AutoDisposable-TextView] finally")
+                    log(TAG, "[AndroidMainScope-TextView] finally")
                 }
             }
             try {
-                v.text = deferred.await()
+                (it as TextView).text = deferred.await()
             } catch (e: CancellationException) {
-                log(TAG, "[AutoDisposable-TextView-await] cancelled")
+                log(TAG, "[AndroidMainScope-TextView-await] cancelled")
             }
         }
+
+//        textView.onClickDisposable { v: TextView ->
+//            val deferred = async {
+//                try {
+//                    log(TAG, "[AutoDisposable-TextView] launched")
+//                    delay(Long.MAX_VALUE)
+//                    log(TAG, "[AutoDisposable-TextView] start return result")
+//                    coroutineContext.toString()
+//                } catch (e: CancellationException) {
+//                    log(TAG, "[AutoDisposable-TextView] cancelled")
+//                    "CancellationException"
+//                } finally {
+//                    log(TAG, "[AutoDisposable-TextView] finally")
+//                }
+//            }
+//            try {
+//                v.text = deferred.await()
+//            } catch (e: CancellationException) {
+//                log(TAG, "[AutoDisposable-TextView-await] cancelled")
+//            }
+//        }
     }
 
     override fun onDestroy() {

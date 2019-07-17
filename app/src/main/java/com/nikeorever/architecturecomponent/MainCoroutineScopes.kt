@@ -12,8 +12,12 @@ import kotlinx.coroutines.*
 import java.util.*
 import kotlin.coroutines.CoroutineContext
 
-fun bindMainScopeTo(lifecycle: LifecycleOwner) {
-    with(lifecycle.lifecycle) {
+/**
+ * 将[MainScope]绑定到[owner]上,可以让协程感知[owner]的生命周期变化,这个方法通常调用在[owner]初始化的地方,
+ * [owner]通常是一个[AppCompatActivity] or [Fragment]
+ */
+fun bindMainScopeTo(owner: LifecycleOwner) {
+    with(owner.lifecycle) {
         if (currentState == Lifecycle.State.DESTROYED) {
             return
         }
