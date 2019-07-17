@@ -24,7 +24,7 @@ fun bindMainScopeTo(lifecycle: LifecycleOwner) {
 
             fun onDestroy(owner: LifecycleOwner) {
                 // owner is Fragment or AppCompatActivity
-                MainCoroutineScope.removeAndCancelFrom(owner)
+                MainCoroutineScope.cancelFrom(owner)
                 owner.lifecycle.removeObserver(this)
             }
         })
@@ -113,7 +113,7 @@ interface MainCoroutineScope {
 
         private val mainScopeTable: IdentityHashMap<MainCoroutineScope, CoroutineScope> by lazy { IdentityHashMap<MainCoroutineScope, CoroutineScope>() }
 
-        internal fun removeAndCancelFrom(owner: LifecycleOwner) {
+        internal fun cancelFrom(owner: LifecycleOwner) {
             (owner as? MainCoroutineScope)?.apply {
                 mainScopeTable.remove(this)?.cancel()
             }
