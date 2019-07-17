@@ -20,7 +20,7 @@ class SecondViewModel : ViewModel() {
             .build()
     }
 
-    // use viewModelScope.coroutineContext to auto cancel when destroy
+    // use viewModelScope.coroutineContext to auto cancel when removeAndCancelFrom
     private val postsLiveData: LiveData<List<Post>> = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
 
         try {
@@ -39,7 +39,7 @@ class SecondViewModel : ViewModel() {
         }
     }
 
-    // use viewModelScope.coroutineContext to auto cancel when destroy
+    // use viewModelScope.coroutineContext to auto cancel when removeAndCancelFrom
     val liveData: LiveData<List<Post>> = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
 
         val disposable = emitSource(liveData<List<Post>> {

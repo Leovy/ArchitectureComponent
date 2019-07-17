@@ -1,5 +1,6 @@
 package com.nikeorever.architecturecomponent
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
@@ -12,10 +13,10 @@ class MainActivity : AppCompatActivity() {
 
 
         toSecondButton.setOnClickListener {
-//            startActivity(Intent(this, SecondActivity::class.java))
+            startActivity(Intent(this, SecondActivity::class.java))
 //            MyIntentService.start(this@MainActivity)
 //              runWork(applicationContext)
-            testCompletableDeferred()
+//            testCompletableDeferred()
         }
     }
 }

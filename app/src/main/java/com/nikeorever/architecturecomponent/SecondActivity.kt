@@ -3,12 +3,15 @@ package com.nikeorever.architecturecomponent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
-import android.widget.Toast
 import androidx.lifecycle.*
 import kotlinx.android.synthetic.main.activity_second.*
 import kotlinx.coroutines.*
 
-class SecondActivity : AppCompatActivity(), AndroidMainScope, CoroutineScope by MainScope() {
+class SecondActivity : AppCompatActivity(), MainCoroutineScope, CoroutineScope by MainScope() {
+
+    init {
+        bindMainScopeTo(this)
+    }
 
     private val lazySecondViewModel: SecondViewModel by ViewModelLazy<SecondViewModel>(
         SecondViewModel::class,
@@ -35,53 +38,55 @@ class SecondActivity : AppCompatActivity(), AndroidMainScope, CoroutineScope by 
 //            textView.text = it
 //        })
 
-        withLaunchedCoroutineScope {
-            val postsStrLiveData = lazySecondViewModel.postsStrLiveData.observeAwait(this@SecondActivity)
-            textView.text = postsStrLiveData
-        }
+//        withLaunchedMainScope {
+//            val postsStrLiveData = lazySecondViewModel.postsStrLiveData.observeAwait(this@SecondActivity)
+//            textView.text = postsStrLiveData
+//        }
 
 //        textView.postDelayed({
 //            finish()
 //        }, 500)
 
-        launch {
-            try {
-                log(TAG, "[mainScope] launched")
-                delay(Long.MAX_VALUE)
-            } finally {
-                log(TAG, "[mainScope] cancelled")
-            }
-        }
+//        launch {
+//            try {
+//                log(TAG, "[mainScope] launched")
+//                delay(Long.MAX_VALUE)
+//            } finally {
+//                log(TAG, "[mainScope] cancelled")
+//            }
+//        }
 
-        withLaunchedCoroutineScope {
-            try {
-                log(TAG, "[AndroidMainScope] launched")
-                delay(Long.MAX_VALUE)
-            } finally {
-                log(TAG, "[AndroidMainScope] cancelled")
-            }
-        }
+//        withLaunchedMainScope {
+//            try {
+//                log(TAG, "[AndroidMainScope] launched")
+//                delay(Long.MAX_VALUE)
+//            } catch (e: CancellationException) {
+//                log(TAG, "[AndroidMainScope] cancelled")
+//            } finally {
+//                log(TAG, "[AndroidMainScope] finally")
+//            }
+//        }
 
-        textView.onClick {
-            val deferred = async {
-                try {
-                    log(TAG, "[AndroidMainScope-TextView] launched")
-                    delay(4000)
-                    log(TAG, "[AndroidMainScope-TextView] start return result")
-                    coroutineContext.toString()
-                } catch (e: CancellationException) {
-                    log(TAG, "[AndroidMainScope-TextView] cancelled")
-                    "CancellationException"
-                } finally {
-                    log(TAG, "[AndroidMainScope-TextView] finally")
-                }
-            }
-            try {
-                (it as TextView).text = deferred.await()
-            } catch (e: CancellationException) {
-                log(TAG, "[AndroidMainScope-TextView-await] cancelled")
-            }
-        }
+//        textView.onClick {
+//            val deferred = async {
+//                try {
+//                    log(TAG, "[AndroidMainScope-TextView] launched")
+//                    delay(4000)
+//                    log(TAG, "[AndroidMainScope-TextView] start return result")
+//                    coroutineContext.toString()
+//                } catch (e: CancellationException) {
+//                    log(TAG, "[AndroidMainScope-TextView] cancelled")
+//                    "CancellationException"
+//                } finally {
+//                    log(TAG, "[AndroidMainScope-TextView] finally")
+//                }
+//            }
+//            try {
+//                (it as TextView).text = deferred.await()
+//            } catch (e: CancellationException) {
+//                log(TAG, "[AndroidMainScope-TextView-await] cancelled")
+//            }
+//        }
 
         textView.onClickDisposable { v: TextView ->
             val deferred = async {
